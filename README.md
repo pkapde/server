@@ -1,6 +1,7 @@
 # CX Semantic MCP MVP
 
 A local query service with exactly two MCP tools: `ask_question` and `save_query`.
+For integration into an existing FastAPI backend, follow [INTEGRATION.md](INTEGRATION.md).
 It loads a static Ossie model, resolves a question into a typed spec, validates it, compiles with
 MetricFlow, executes through a warehouse adapter, and returns data plus provenance.
 

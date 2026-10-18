@@ -33,7 +33,11 @@ class BearerAuth:
         self.tokens = tokens
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] != "http" or scope["path"] == "/health":
+        path = scope.get("path", "")
+        root_path = scope.get("root_path", "")
+        if root_path and path.startswith(root_path + "/"):
+            path = path[len(root_path) :]
+        if scope["type"] != "http" or path == "/health":
             await self.app(scope, receive, send)
             return
         headers = dict(scope.get("headers", []))
