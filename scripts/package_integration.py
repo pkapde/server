@@ -13,6 +13,7 @@ def package():
         ROOT / name
         for name in (
             "INTEGRATION.md",
+            "MCP_RUNBOOK.md",
             "README.md",
             "requirements-mcp.txt",
             "pyproject.toml",
