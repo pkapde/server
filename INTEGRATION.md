@@ -98,6 +98,21 @@ Chat Completions with strict JSON-schema output; direct Anthropic APIs need an a
 
 ## Local smoke test
 
+For a visual test without importing host Azure settings, copy main_mcp_demo.py
+to the backend root and run:
+
+```powershell
+python -m uvicorn main_mcp_demo:app --host 127.0.0.1 --port 8000
+```
+
+Open http://127.0.0.1:8000/, enter local-demo-token, and connect. Pick a sample
+question and Ask; then Save and Run saved query. This page uses MCP JSON-RPC
+for discovery/ask/save and REST for reruns. The page is public on this local demo;
+all data endpoints still require bearer authentication. Tokens are not persisted.
+The demo entry point uses fixture interpretations and synthetic data only.
+Prepare sample data/tokenizer first as below. Copy the updated semantic_mcp/demo_ui.py
+along with main_mcp_demo.py; the page is not installed on the full host by default.
+
 From the backend project root, prepare synthetic data and tokenizer, then use the
 existing backend startup command:
 

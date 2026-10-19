@@ -10,7 +10,14 @@ def package():
     destination = ROOT / "dist" / "mcp-fastapi-integration.zip"
     destination.parent.mkdir(exist_ok=True)
     sources = [
-        ROOT / name for name in ("INTEGRATION.md", "README.md", "requirements-mcp.txt", "pyproject.toml")
+        ROOT / name
+        for name in (
+            "INTEGRATION.md",
+            "README.md",
+            "requirements-mcp.txt",
+            "pyproject.toml",
+            "main_mcp_demo.py",
+        )
     ]
     for directory, suffix in (("semantic_mcp", ".py"), ("scripts", ".py"), ("tests", ".py")):
         sources.extend((ROOT / directory).glob("*" + suffix))
