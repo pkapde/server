@@ -11,6 +11,13 @@ Teradata, or Snowflake. Live adapters and the approved-endpoint resolver are sep
 
 ## Run locally on Windows
 
+For standalone testing with a real resolver LLM and the browser UI (no tuning-fork),
+copy `.env.llm.example` to `.env`, fill the three `MCP_LLM_*` fields, prepare data/tokenizer,
+then run `python -m uvicorn main_mcp_llm:create_app --factory --host 127.0.0.1 --port 8000`.
+Open http://127.0.0.1:8000/ and enter `local-demo-token`. This uses real interpretation
+and synthetic DuckDB execution. The provider must implement the current resolver's
+Chat Completions + strict JSON-schema + bearer-token contract; see MCP_RUNBOOK.md.
+
 Run commands from this project directory using Python 3.12:
 
 ```powershell

@@ -18,6 +18,8 @@ def package():
             "requirements-mcp.txt",
             "pyproject.toml",
             "main_mcp_demo.py",
+            "main_mcp_llm.py",
+            ".env.llm.example",
         )
     ]
     for directory, suffix in (("semantic_mcp", ".py"), ("scripts", ".py"), ("tests", ".py")):

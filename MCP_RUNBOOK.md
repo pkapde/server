@@ -10,6 +10,32 @@ natural-language accuracy demonstration.
 
 ## 1. Quick start on Windows
 
+### Standalone real LLM test without tuning-fork
+
+Clone pkapde/server on the test system and use its main branch. Install the
+requirements and prepare data/tokenizer using the commands below. Copy
+.env.llm.example to .env and set MCP_LLM_BASE_URL, MCP_LLM_API_KEY and
+MCP_LLM_MODEL to your approved compatible provider. Do not share the key.
+
+```powershell
+Copy-Item .env.llm.example .env
+# Edit .env locally before starting.
+python -m uvicorn main_mcp_llm:create_app --factory --host 127.0.0.1 --port 8000
+```
+
+Open http://127.0.0.1:8000/, enter local-demo-token and connect. The page says
+Live LLM interpretation. Type a new question about the sample metrics and check
+resolver_mode=llm and llm_calls=1 on an uncached successful interpretation.
+Repeated cached questions and saved runs show zero LLM calls. No warehouse
+credentials, tuning-fork source, host Azure settings or public HTTPS deployment
+are needed. The local server can use HTTP while its outbound provider URL uses
+HTTPS. A provider-specific API adapter may still be required.
+
+main_mcp_llm deliberately forces LLM interpretation and DuckDB execution. It
+reads .env with MCP_ prefixes. main_mcp_demo continues to force fixture mode.
+The real-provider connection cannot be verified until credentials are supplied;
+automated tests use a simulated compatible provider, not a real LLM.
+
 Run every command from the repository root, beside main_mcp_demo.py.
 Use the same Python environment for installation, the server and the client.
 Local verification used Python 3.12. The organisation Dockerfile uses Python
@@ -106,6 +132,7 @@ saves the resolution, and reruns the saved query over REST with zero LLM calls.
 | Entry point | Purpose | Base path |
 | --- | --- | --- |
 | main_mcp_demo:app | Isolated fixture demo with browser page | /analytics |
+| main_mcp_llm:create_app --factory | Standalone real LLM with browser page and synthetic data | /analytics |
 | Host main.py plus install_mcp(app) | MCP integrated into the full backend | /analytics |
 | scripts/start.py | Standalone service without the browser page | No prefix |
 
@@ -289,8 +316,8 @@ does not read .env (_env_file=None), although other MCP_ environment variables
 can still override settings not explicitly supplied. Therefore editing .env
 cannot turn that demo entry point into a live resolver.
 
-For live interpretation over sample data, use the normal integrated host or an
-entry point calling install_mcp(app) without forced demo settings, then set:
+For live interpretation over sample data, use main_mcp_llm:create_app --factory
+or the normal integrated host, then set:
 
 ```dotenv
 MCP_RESOLVER_MODE=llm

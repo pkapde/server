@@ -6,13 +6,19 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 
-def install_demo_ui(app: FastAPI, questions: list[str], prefix: str = "/analytics"):
+def install_demo_ui(app: FastAPI, questions: list[str], prefix: str = "/analytics", resolver_mode="fixture"):
     # Encode untrusted text as JSON and escape HTML script terminators.
     config = json.dumps({"questions": questions, "prefix": prefix}).replace("<", "\\u003c")
 
     @app.get("/", response_class=HTMLResponse, include_in_schema=False)
     async def demo_page():
-        return HTML.replace("__DEMO_CONFIG__", config)
+        page = HTML.replace("__DEMO_CONFIG__", config)
+        if resolver_mode == "llm":
+            page = page.replace(
+                "Fixture mode supports the sample questions below. SQL is compiled and executed on local sample data. No LLM credentials are needed.",
+                "Live LLM interpretation with synthetic local data. Select an example or type a new analytical question. The provider receives the question and catalogue, not result rows.",
+            )
+        return page
 
 
 HTML = r"""<!doctype html>
