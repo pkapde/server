@@ -19,6 +19,8 @@ def package():
             "pyproject.toml",
             "main_mcp_demo.py",
             "main_mcp_llm.py",
+            "main_mcp_react.py",
+            "FRONTEND.md",
             ".env.llm.example",
         )
     ]
@@ -26,6 +28,11 @@ def package():
         sources.extend((ROOT / directory).glob("*" + suffix))
     sources.extend((ROOT / "examples").glob("*.yaml"))
     sources.extend((ROOT / "examples").glob("*.json"))
+    for source in (ROOT / "frontend").rglob("*"):
+        if source.is_file() and not any(
+            part in {"node_modules", "dist", ".vite"} for part in source.relative_to(ROOT / "frontend").parts
+        ):
+            sources.append(source)
     with ZipFile(destination, "w", ZIP_DEFLATED) as archive:
         for source in sorted(sources):
             archive.write(source, source.relative_to(ROOT).as_posix())

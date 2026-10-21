@@ -1,6 +1,8 @@
 # CX Semantic MCP MVP
 
 A local query service with exactly two MCP tools: `ask_question` and `save_query`.
+For the React frontend, see [FRONTEND.md](FRONTEND.md). Build `frontend/`, then run
+`python -m uvicorn main_mcp_react:create_app --factory --host 127.0.0.1 --port 8000`.
 For run commands, architecture, implementation details and troubleshooting, read [MCP_RUNBOOK.md](MCP_RUNBOOK.md).
 For integration into an existing FastAPI backend, follow [INTEGRATION.md](INTEGRATION.md).
 It loads a static Ossie model, resolves a question into a typed spec, validates it, compiles with

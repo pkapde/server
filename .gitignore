@@ -7,3 +7,6 @@ __pycache__/
 var/
 *.log
 dist/
+node_modules/
+frontend/dist/
+frontend/.vite/

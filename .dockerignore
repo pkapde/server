@@ -8,3 +8,6 @@ __pycache__
 .ruff_cache
 *.log
 *.egg-info
+**/node_modules
+frontend/dist
+dist
